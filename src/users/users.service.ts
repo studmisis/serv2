@@ -14,4 +14,8 @@ export class UsersService {
   deleteUser(id: number): Promise<User> {
     return this.usersRepository.deleteUser(id);
   }
+
+  findByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findByEmail(email);
+  }
 }
