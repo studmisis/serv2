@@ -15,6 +15,15 @@ export class TaskRepository {
     });
   }
 
+  async getTaskById(id: number): Promise<Task | null> {
+    return this.prisma.task.findUnique({
+      where: { id },
+      include: {
+        user: true,
+      },
+    });
+  }
+
   async createTask(data: CreateTask): Promise<Task> {
     return this.prisma.task.create({
       data,

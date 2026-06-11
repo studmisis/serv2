@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { TaskRepository } from './task.repositiry';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { TaskRepository } from './task.repository';
 import { Task } from 'generated/prisma/client';
 import { CreateTask, UpdateTask } from './interface/task.interface';
 
@@ -9,6 +9,14 @@ export class TasksService {
 
   async getTasks(): Promise<Task[]> {
     return this.taskRepository.getTasks();
+  }
+
+  async getTaskById(id: number): Promise<Task> {
+    const task = await this.taskRepository.getTaskById(id);
+    if (!task) {
+      throw new NotFoundException('Task not found');
+    }
+    return task;
   }
 
   async createTask(data: CreateTask): Promise<Task> {
