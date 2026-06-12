@@ -11,11 +11,17 @@ export class UsersService {
     return this.usersRepository.createUser(data);
   }
 
-  deleteUser(id: number): Promise<User> {
-    return this.usersRepository.deleteUser(id);
-  }
-
   findByEmail(email: string): Promise<User | null> {
     return this.usersRepository.findByEmail(email);
+  }
+
+  async findAll(): Promise<Omit<User, 'password'>[]> {
+    const users = await this.usersRepository.findAll();
+
+    return users.map((user) => {
+      const { password: _password, ...result } = user;
+      void _password;
+      return result;
+    });
   }
 }

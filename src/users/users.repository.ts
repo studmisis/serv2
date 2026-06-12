@@ -13,15 +13,15 @@ export class UsersRepository {
     });
   }
 
-  async deleteUser(id: number): Promise<User> {
-    return this.prisma.user.delete({
-      where: { id },
-    });
-  }
-
   async findByEmail(email: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { email },
+    });
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany({
+      orderBy: { id: 'asc' },
     });
   }
 }
